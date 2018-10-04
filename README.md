@@ -35,7 +35,7 @@ flux = np.random.normal(qpower2.lc(t, fs=0.1,fc=0.1, period=8.3),0.001)
 plt.plot(t,flux);plt.xlabel('Time [d]'); plt.ylabel('Flux')
 plt.show()
 ```
-![alt text](https://github.com/samgill844/qpower2/blob/master/images/Figure_1.png)
+![alt text](https://github.com/samgill844/pyqpower2/blob/master/images/Figure_1.png)
 
 
 Alright, now we obviously want to generate some models to fit this. First lets time it
@@ -98,7 +98,7 @@ samples = sampler.chain[:, 5000:, :].reshape((-1, ndim))
 fig = corner.corner(samples, labels = [r'$R_1/a$', 'k', r'$T_0 [BJD]$', 'P [d]'], truths = [0.2,0.2,0.0,8.3])
 plt.show()
 ```
-![alt text](https://github.com/samgill844/qpower2/blob/master/images/Figure_2.png)
+![alt text](https://github.com/samgill844/pyqpower2/blob/master/images/Figure_2.png)
 
 ## Batch lightcurves
 
@@ -215,7 +215,7 @@ samples = sampler.chain[:, 98:, :].reshape((-1, ndim)) # this is 10240*2 values
 fig = corner.corner(samples, labels = [r'$R_1/a$', 'k', r'$T_0 [BJD]$', 'P [d]'], truths = [0.2,0.2,0.0,8.3])
 plt.show()
 ```
-![alt text](https://github.com/samgill844/qpower2/blob/master/images/Figure_4.png)
+![alt text](https://github.com/samgill844/pyqpower2/blob/master/images/Figure_4.png)
 
 Much faster, I can hit over 30 iterations a second which translates to 307,200 models per second! In total, this took 3 seconds to run and converge. 
 
