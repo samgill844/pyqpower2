@@ -1288,6 +1288,43 @@ void fft(double * data, int n)
 }
 
 
+void fft_convolve(double * data, int n_data, double * kernel, int n_kernel)
+{
+	gsl_fft_real_wavetable * real;
+	gsl_fft_halfcomplex_wavetable * hc;
+	gsl_fft_real_workspace * work;
+
+	work = gsl_fft_real_workspace_alloc (n_data);
+	real = gsl_fft_real_wavetable_alloc (n_data);
+	hc = gsl_fft_halfcomplex_wavetable_alloc (n_data);
+
+	// pad the array
+	double * kernel_long;
+	kernel_long = (double *)malloc( n_data*sizeof(double));
+	int i;
+	// #pragma omp parallel
+	for (i=0; i < n_kernel; i++) kernel_long[i] = kernel[i];
+	for (i=n_kernel; i < n_data; i++) kernel_long[i] = 0.0;
+
+
+	gsl_fft_real_transform (data, 1, n_data, real, work);
+	gsl_fft_real_transform (kernel_long, 1, n_data, real, work);
+
+	// Multiply
+	// #pragma omp parallel
+	for (i=0; i < n_data; i++) data[i] = data[i] * kernel_long[i];
+
+	// Inverse FFT back 
+	gsl_fft_halfcomplex_inverse (data, 1, n_data, hc, work);
+
+	// Free
+	gsl_fft_real_wavetable_free (real);
+	gsl_fft_halfcomplex_wavetable_free (hc);
+	gsl_fft_real_workspace_free (work);
+
+}
+
+
 
 
 

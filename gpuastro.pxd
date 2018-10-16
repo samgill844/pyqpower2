@@ -32,3 +32,5 @@ cdef extern from "c_src/qpower2.hh":
 
 	double lc_loglike(double * time, double * lightcurve, double * lightcurve_err, int n_elements, double t_zero, double period, double radius_1, double k, double fs, double fc, double incl, double SBR, int ld_law_1, double * ldc_1, int ld_law_2, double * ldc_2, double third_light, int nthreads)
 	void lc_batch_loglike(double * time, double * flux, double * flux_err, double * LC_loglike, int n_elements, int n_batch, double * t_zero, double * period, double * radius_1, double * k, double * fs, double * fc, double * incl, double * SBR, int ld_law_1, double * ldc_1, int ld_law_2, double * ldc_2, double * third_light, int offset_1, int offset_2)
+
+	void fft_convolve(double * data, int n_data, double * kernel, int n_kernel)

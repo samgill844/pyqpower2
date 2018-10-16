@@ -14,13 +14,14 @@ from gpuastro cimport lc_batch_loglike as c_lc_batch_loglike
 
 
 from gpuastro cimport lc_batch as c_lc_batch
+from gpuastro cimport fft_convolve as c_fft_convolve
 
 import ctypes
 from cpython cimport array
 import numpy as np
 cimport numpy as np
 
-__all__ = ['clip', 'getE', 'rv', 'get_intensity_from_limb_darkening_law', 'Flux_drop_analytical_power_2', 'lc_loglike']
+__all__ = ['clip', 'getE', 'rv', 'get_intensity_from_limb_darkening_law', 'Flux_drop_analytical_power_2', 'lc_loglike', 'fft_convolve']
 
 #/***********************************************
 #			 Helper functions
@@ -523,6 +524,13 @@ def fft(np.ndarray[double, ndim=1, mode="c"] data):
 	cdef np.ndarray[double, ndim=1, mode="c"] data_= data.copy().astype(np.float64)
 	c_fft(&data_[0], len(data_))
 	return data_
+
+
+def fft_convolve(np.ndarray[double, ndim=1, mode="c"] data, np.ndarray[double, ndim=1, mode="c"] kernel):
+	cdef np.ndarray[double, ndim=1, mode="c"] data_= data.copy().astype(np.float64)
+	c_fft_convolve(&data_[0], len(data_), &kernel[0], len(kernel))
+	return data_
+
 
 
 def TEST1():

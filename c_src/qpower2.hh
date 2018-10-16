@@ -60,6 +60,7 @@ void lc_batch_loglike(double * time, double * flux, double * flux_err, double * 
 
 void dwt(double * data, int n);
 void fft(double * data, int n);
+void fft_convolve(double * data, int n_data, double * kernel, int n_kernel);
 
 
 
